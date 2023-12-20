@@ -29,9 +29,12 @@ public class CommentOptionalHandlerImpl implements RequestHandler {
     @Override
     @Transactional
     public List<BotApiMethod<? extends Serializable>> handleRequest(User user, Update update) {
+        Integer messageId;
         if (update.hasCallbackQuery() && PRE_CREATE_ORDER.equals(update.getCallbackQuery().getData())) {
+            messageId = update.getCallbackQuery().getMessage().getMessageId();
             user.setComment(StringUtils.EMPTY);
         } else {
+            messageId = update.getMessage().getMessageId();
             String comment = update.hasMessage() ? update.getMessage().getText() : StringUtils.EMPTY;
             user.setComment(comment);
         }
@@ -39,7 +42,7 @@ public class CommentOptionalHandlerImpl implements RequestHandler {
         user.setChatState(ChatState.CREATION_ORDER);
         userService.updateUser(user);
 
-        return List.of(new DeleteMessage(String.valueOf(user.getChatId()), update.getCallbackQuery().getMessage().getMessageId()),
+        return List.of(new DeleteMessage(String.valueOf(user.getChatId()), messageId),
                 ChatUtils.createMessage(user.getChatId(),
                         String.format(MessageConstant.CONFIRM_CREATE_ORDER_MSG_FORMAT,
                                 user.getPhoneNumber(),

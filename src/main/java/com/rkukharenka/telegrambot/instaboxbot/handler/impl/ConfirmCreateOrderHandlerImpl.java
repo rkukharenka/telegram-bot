@@ -1,6 +1,7 @@
 package com.rkukharenka.telegrambot.instaboxbot.handler.impl;
 
 import com.rkukharenka.telegrambot.instaboxbot.entity.Order;
+import com.rkukharenka.telegrambot.instaboxbot.entity.PreOrderInfo;
 import com.rkukharenka.telegrambot.instaboxbot.entity.User;
 import com.rkukharenka.telegrambot.instaboxbot.enums.ChatState;
 import com.rkukharenka.telegrambot.instaboxbot.handler.RequestHandler;
@@ -47,12 +48,7 @@ public class ConfirmCreateOrderHandlerImpl implements RequestHandler {
                             null,
                             true));
         }
-        user.getPreOrderInfo()
-                .setPreOrderDate(null)
-                .setPreOrderEndTime(null)
-                .setPreOrderStartTime(null)
-                .setComment(null)
-                .setEventPlace(null);
+        user.setChatState(ChatState.GREETING).setPreOrderInfo(new PreOrderInfo());
         userService.updateUser(user);
 
         return List.of(getEditMessageReplyMarkup(user, update), ChatUtils.createMessage(user.getChatId(),

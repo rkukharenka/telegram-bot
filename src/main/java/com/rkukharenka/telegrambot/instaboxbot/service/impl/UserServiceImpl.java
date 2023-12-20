@@ -36,7 +36,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User receiveOrRegisterUser(Long chatId, Update update) {
-        return userRepository.findUserByChatId(chatId).orElseGet(() -> registerNewUser(chatId, update));
+        User user = userRepository.findUserByChatId(chatId).orElseGet(() -> registerNewUser(chatId, update));
+
+        return Objects.isNull(user.getPreOrderInfo())
+                ? user.setPreOrderInfo(new PreOrderInfo().setPreOrderDate(LocalDate.now()))
+                : user;
     }
 
     @Override
