@@ -40,7 +40,7 @@ public class MobilePhoneHandlerImpl implements RequestHandler {
 
         return List.of(ChatUtils.createMessage(user.getChatId(),
                 String.format(ADD_COMMENT_OPTIONAL_MSG_FORMAT, user.getFirstName()),
-                KeyboardFactory.getContinueOrAddComment(),
+                KeyboardFactory.getSkipComment(),
                 false));
     }
 

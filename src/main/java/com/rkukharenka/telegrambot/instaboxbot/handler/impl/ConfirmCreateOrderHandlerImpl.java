@@ -39,6 +39,7 @@ public class ConfirmCreateOrderHandlerImpl implements RequestHandler {
             orderRepository.save(new Order()
                     .setUser(user)
                     .setComment(user.getComment())
+                    .setLocation(user.getPreOrderInfo().getEventPlace())
                     .setStartOrder(LocalDateTime.of(user.getPreOrderDate(), user.getPreOrderStartTime()))
                     .setFinishOrder(LocalDateTime.of(user.getPreOrderDate(), user.getPreOrderEndTime())));
 

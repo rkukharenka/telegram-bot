@@ -136,12 +136,10 @@ public final class KeyboardFactory {
         return confirmation;
     }
 
-    public static ReplyKeyboard getContinueOrAddComment() {
+    public static ReplyKeyboard getSkipComment() {
         InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup();
         List<List<InlineKeyboardButton>> buttons = new ArrayList<>();
-        buttons.add(List.of(
-                createInlineButton("Продолжить", CallbackDataConstant.PRE_CREATE_ORDER),
-                createInlineButton("Добавить комментарий", CallbackDataConstant.ADD_COMMENT)));
+        buttons.add(List.of(createInlineButton("Пропустить", CallbackDataConstant.PRE_CREATE_ORDER)));
 
         keyboard.setKeyboard(buttons);
         return keyboard;

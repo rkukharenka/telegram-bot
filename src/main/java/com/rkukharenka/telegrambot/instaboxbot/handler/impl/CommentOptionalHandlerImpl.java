@@ -45,10 +45,11 @@ public class CommentOptionalHandlerImpl implements RequestHandler {
         return List.of(new DeleteMessage(String.valueOf(user.getChatId()), messageId),
                 ChatUtils.createMessage(user.getChatId(),
                         String.format(MessageConstant.CONFIRM_CREATE_ORDER_MSG_FORMAT,
-                                user.getPhoneNumber(),
+                                ChatUtils.formatPhoneNumber(user.getPhoneNumber()),
                                 user.getPreOrderDate(),
                                 user.getPreOrderStartTime(), user.getPreOrderEndTime(),
-                                user.getEventPlace()),
+                                user.getEventPlace(),
+                                user.getComment()),
                         KeyboardFactory.getCreateOrderOrCancel(),
                         true));
     }

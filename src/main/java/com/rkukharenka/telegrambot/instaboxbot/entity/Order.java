@@ -20,10 +20,16 @@ public class Order {
     @Column(name = "id", nullable = false)
     private Long id;
 
+    @Column(name = "comment")
     private String comment;
 
+    @Column(name = "location")
+    private String location;
+
+    @Column(name = "start_order")
     private LocalDateTime startOrder;
 
+    @Column(name = "finish_order")
     private LocalDateTime finishOrder;
 
     @ManyToOne

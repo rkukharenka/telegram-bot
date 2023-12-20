@@ -22,12 +22,16 @@ import java.util.List;
 public class User {
 
     @Id
+    @Column(name = "chat_id")
     private Long chatId;
 
+    @Column(name = "first_name")
     private String firstName;
 
+    @Column(name = "phone_number")
     private String phoneNumber;
 
+    @Column(name = "chat_state")
     @Enumerated(EnumType.STRING)
     private ChatState chatState;
 

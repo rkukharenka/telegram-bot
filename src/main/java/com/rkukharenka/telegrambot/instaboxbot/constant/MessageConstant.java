@@ -58,9 +58,10 @@ public class MessageConstant {
             """;
 
     public static final String ADD_COMMENT_OPTIONAL_MSG_FORMAT = """
-            %s, при желании вы можете оставить комментарий. 
+            💬 %s, при желании вы можете оставить комментарий.
                         
             Желаете ли добавить что-то еще?
+            Если да, то опишите это в сообщении и отправьте.
             """;
 
     public static final String CONFIRM_CREATE_ORDER_MSG_FORMAT = """
@@ -69,6 +70,7 @@ public class MessageConstant {
                  <i> 📅 %s </i>
                  <i> ⏰ - с %s по %s </i>
                  <i> ⛳ - %s </i>
+                 <i> 💬 - %s </i>
             """;
 
     public static final String CREATE_ORDER_MSG_FORMAT = """
