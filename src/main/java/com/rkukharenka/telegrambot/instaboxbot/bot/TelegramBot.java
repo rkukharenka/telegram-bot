@@ -1,46 +1,78 @@
 package com.rkukharenka.telegrambot.instaboxbot.bot;
 
-import com.rkukharenka.telegrambot.instaboxbot.config.BotConfig;
-import com.rkukharenka.telegrambot.instaboxbot.entity.User;
-import com.rkukharenka.telegrambot.instaboxbot.service.SmartSender;
-import com.rkukharenka.telegrambot.instaboxbot.service.UserService;
-import com.rkukharenka.telegrambot.instaboxbot.utils.ChatUtils;
+import com.rkukharenka.telegrambot.instaboxbot.bot.helper.ChatUtils;
+import com.rkukharenka.telegrambot.instaboxbot.common.entity.User;
+import com.rkukharenka.telegrambot.instaboxbot.common.service.UserService;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
+import lombok.extern.slf4j.Slf4j;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.meta.TelegramBotsApi;
+import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
-@Component
+import java.io.Serializable;
+
+@Slf4j
 @RequiredArgsConstructor
-public class TelegramBot extends TelegramLongPollingBot {
+public class TelegramBot extends TelegramLongPollingBot implements TelegramBotNotifier {
 
-    private final BotConfig botConfig;
-    private final SmartSender smartSender;
+    private final String botUsername;
+    private final String botToken;
+    private final BotFlowManager botFlowManager;
     private final UserService userService;
+
+    @PostConstruct
+    public void initBot() {
+        try {
+            TelegramBotsApi botsApi = new TelegramBotsApi(DefaultBotSession.class);
+            botsApi.registerBot(this);
+        } catch (TelegramApiException e) {
+            log.error("Error initializing Telegram Bot {}", e.getMessage());
+            throw new RuntimeException(e);
+        }
+    }
 
     @Override
     public void onUpdateReceived(Update update) {
+        if (!isPrivateChat(update)) {
+            return;
+        }
+
         Long chatId = ChatUtils.getChatId(update);
 
         User user = userService.receiveOrRegisterUser(chatId, update);
 
-        smartSender.sendMessage(user, update).forEach(botApiMethod -> {
-            try {
-                execute(botApiMethod);
-            } catch (TelegramApiException e) {
-                throw new RuntimeException(e);
-            }
-        });
+        botFlowManager.generateMessages(user, update).forEach(this::sendMessage);
+    }
+
+    private boolean isPrivateChat(Update update) {
+        return update.hasCallbackQuery() || (update.hasMessage() && update.getMessage().getChat().isUserChat());
+    }
+
+    private void sendMessage(BotApiMethod<? extends Serializable> botApiMethod) {
+        try {
+            execute(botApiMethod);
+        } catch (TelegramApiException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public String getBotUsername() {
-        return botConfig.getBotName();
+        return botUsername;
     }
 
     @Override
     public String getBotToken() {
-        return botConfig.getToken();
+        return botToken;
+    }
+
+    @Override
+    public void sendNotification(SendMessage sendMessage) {
+        sendMessage(sendMessage);
     }
 }

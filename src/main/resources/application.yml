@@ -20,3 +20,8 @@ telegram:
   bot:
     bot-username: ${BOT_USERNAME}
     token: ${BOT_TOKEN}
+
+user-preferences:
+  working-hours:
+    start: 8,0 # 08:00
+    end: 23,0  # 23:00

@@ -22,9 +22,13 @@ repositories {
 }
 
 dependencies {
-    //spring
+    //spring boot starter
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    //spring-security
+    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5:3.1.2.RELEASE'
     //telegram
     implementation 'org.telegram:telegrambots:6.8.0'
     //utils

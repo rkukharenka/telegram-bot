@@ -1,0 +1,83 @@
+<!-- editOrderForm.html -->
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+    <!-- Include Font Awesome for the arrow icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <title>Изменить заказ</title>
+    <style>
+        body {
+            padding: 20px;
+        }
+
+        .arrow-back {
+            position: absolute;
+            top: 20px;
+            left: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Форма изменения заказа -->
+<div class="container">
+    <div class="text-center">
+        <!-- Back button with arrow -->
+        <a th:href="@{/orders}" class="btn btn-light arrow-back">
+            <i class="fas fa-arrow-left"></i>
+        </a>
+        <h2 class="mb-4">Изменить заказ</h2>
+    </div>
+    <form th:action="@{/updateOrder/{id}(id=${orderRequestDto.orderId})}" th:object="${orderRequestDto}" method="post">
+        <div class="form-group">
+            <label for="userName">Имя клиента:</label>
+            <input type="text" class="form-control" id="userName" placeholder="Введите имя клиента"
+                   th:field="*{username}" required>
+        </div>
+        <div class="form-group">
+            <label for="phoneNumber">Мобильный телефон:</label>
+            <input type="tel" class="form-control" id="phoneNumber" th:field="*{phoneNumber}" required>
+        </div>
+        <div class="form-group">
+            <label for="orderDate">Дата заказа:</label>
+            <input type="date" class="form-control datepicker" id="orderDate" th:field="*{orderDate}" required>
+        </div>
+        <div class="form-group">
+            <label for="orderTimeFrom">Время начала заказа:</label>
+            <input type="time" class="form-control" id="orderTimeFrom" th:field="*{orderTimeFrom}" required>
+        </div>
+        <div class="form-group">
+            <label for="orderTimeTo">Время окончания заказа:</label>
+            <input type="time" class="form-control" id="orderTimeTo" th:field="*{orderTimeTo}" required>
+        </div>
+        <div class="form-group">
+            <label for="orderLocation">Место проведения мероприятия:</label>
+            <input type="text" class="form-control" id="orderLocation"
+                   placeholder="Введите место проведения мероприятия" th:field="*{orderLocation}" required>
+        </div>
+        <div class="form-group">
+            <label for="comment">Введите комментарий (необязательно):</label>
+            <input type="text" class="form-control" id="comment" placeholder="Введите комментарий"
+                   th:field="*{orderComment}">
+        </div>
+        <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+    </form>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+<script>
+    $(document).ready(function(){
+        // Add mask to phone number input
+        $('#phoneNumber').mask('+375(99)999-99-99', {placeholder: '+375'});
+    });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+</body>
+</html>
