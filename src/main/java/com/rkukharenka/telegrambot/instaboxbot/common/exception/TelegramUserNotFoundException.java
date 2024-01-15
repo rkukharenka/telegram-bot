@@ -3,7 +3,7 @@ package com.rkukharenka.telegrambot.instaboxbot.common.exception;
 public class TelegramUserNotFoundException extends RuntimeException {
 
     public TelegramUserNotFoundException(Long chatId) {
-        super(String.format("User with chatId = %s not found.", chatId));
+        super("User with chatId = %s not found.".formatted(chatId));
     }
 
 }

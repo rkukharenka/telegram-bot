@@ -1,15 +1,16 @@
 package com.rkukharenka.telegrambot.instaboxbot.common.utils;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 class DateTimeUtilsTest {
 
     @Test
-    void testFreeTimeSlotsToString() {
+    void freeTimeSlotsToString() {
         List<LocalDateTime[]> freeTimeSlots = List.of(new LocalDateTime[]{LocalDateTime.of(2023, 12, 1, 8, 0), LocalDateTime.of(2023, 12, 1, 9, 0)},
                 new LocalDateTime[]{LocalDateTime.of(2023, 12, 1, 17, 0), LocalDateTime.of(2023, 12, 1, 18, 0)},
                 new LocalDateTime[]{LocalDateTime.of(2023, 12, 1, 22, 0), LocalDateTime.of(2023, 12, 1, 23, 0)});
@@ -17,6 +18,6 @@ class DateTimeUtilsTest {
 
         String actual = DateTimeUtils.freeTimeSlotsToString(freeTimeSlots);
 
-        Assertions.assertEquals(expected, actual);
+        assertEquals(expected, actual);
     }
 }

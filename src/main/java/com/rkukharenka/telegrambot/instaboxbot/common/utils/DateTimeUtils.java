@@ -51,7 +51,7 @@ public final class DateTimeUtils {
     private static String formatTimeSlot(int index, LocalDateTime[] timeSlot, DateTimeFormatter formatter) {
         String startTime = formatter.format(timeSlot[0]);
         String endTime = formatter.format(timeSlot[1]);
-        return String.format("%d. %s-%s", index, startTime, endTime);
+        return "%d. %s-%s".formatted(index, startTime, endTime);
     }
 
 }

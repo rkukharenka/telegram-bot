@@ -37,7 +37,7 @@ public class GreetingHandlerImpl implements RequestHandler {
     @Transactional
     public List<BotApiMethod<? extends Serializable>> handleRequest(User user, Update update) {
         Message message = update.getMessage();
-        String greetingMessage = String.format(MessageConstant.GREETING_MSG_FORMAT, message.getFrom().getFirstName());
+        String greetingMessage = MessageConstant.GREETING_MSG_FORMAT.formatted(message.getFrom().getFirstName());
 
         userService.changeChatState(user, ChatState.SELECTING_DATE);
 

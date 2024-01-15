@@ -9,6 +9,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -37,6 +38,9 @@ class DateTimeBookingServiceImplTest {
 
     @BeforeEach
     void setUp() {
+        ReflectionTestUtils.setField(dateTimeBookingService, "startWorkingDay", new int[]{8, 0}); // 8:00 AM
+        ReflectionTestUtils.setField(dateTimeBookingService, "endWorkingDay", new int[]{23, 0});  // 23:00 PM
+
         ordersBySpecificDate = List.of(
                 new Order().setStartOrder(LocalDateTime.of(2023, 12, 1, 8, 30)).setFinishOrder(LocalDateTime.of(2023, 12, 1, 10, 30)),
                 new Order().setStartOrder(LocalDateTime.of(2023, 12, 1, 13, 0)).setFinishOrder(LocalDateTime.of(2023, 12, 1, 16, 0)),
@@ -56,7 +60,7 @@ class DateTimeBookingServiceImplTest {
     }
 
     @Test
-    void testFindFreeTimeSlots_ifHaveRecordsOnSpecificDay() {
+    void findFreeTimeSlots_ifHaveRecordsOnSpecificDay() {
         //given
         List<LocalDateTime[]> expectedResult = List.of(
                 new LocalDateTime[]{LocalDateTime.of(2023, 12, 1, 17, 0), LocalDateTime.of(2023, 12, 1, 18, 0)},
@@ -72,7 +76,7 @@ class DateTimeBookingServiceImplTest {
     }
 
     @Test
-    void testFindFreeTimeSlots_ifAllDayFree() {
+    void findFreeTimeSlots_ifAllDayFree() {
         //given
         List<LocalDateTime[]> expectedResult = Collections.singletonList(
                 new LocalDateTime[]{LocalDateTime.of(2023, 12, 1, 8, 0), LocalDateTime.of(2023, 12, 1, 23, 0)}
@@ -87,7 +91,7 @@ class DateTimeBookingServiceImplTest {
     }
 
     @Test
-    void testTimeIsValidTimeForBooking() {
+    void timeIsValidTimeForBooking() {
         //given
         when(orderRepository.findOrdersBySpecificDate(any())).thenReturn(ordersBySpecificDate);
 
@@ -98,7 +102,7 @@ class DateTimeBookingServiceImplTest {
     }
 
     @Test
-    void testTimeIsNotValidTimeForBooking() {
+    void timeIsNotValidTimeForBooking() {
         when(orderRepository.findOrdersBySpecificDate(any())).thenReturn(ordersBySpecificDate);
 
         assertAll("is not valid",
@@ -110,7 +114,7 @@ class DateTimeBookingServiceImplTest {
     }
 
     @Test
-    void testGetFreeDaysInMonth() {
+    void getFreeDaysInMonth() {
         Set<LocalDate> expectedResult = Set.of(
                 LocalDate.of(2023, 12, 1),
                 LocalDate.of(2023, 12, 2),
