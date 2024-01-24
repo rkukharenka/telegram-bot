@@ -48,9 +48,9 @@ public class OrderController {
         return REDIRECT_TO_ORDERS;
     }
 
-    @GetMapping("/deleteOrder/{id}")
-    public String deleteOrder(@PathVariable Long id) {
-        orderService.deleteOrder(id);
+    @GetMapping("/declineOrder/{id}")
+    public String declineOrder(@PathVariable Long id) {
+        orderService.declineOrder(id);
         return REDIRECT_TO_ORDERS;
     }
 

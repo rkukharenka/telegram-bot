@@ -29,7 +29,6 @@ public class DateTimeBookingServiceImpl implements DateTimeBookingService {
     public List<LocalDateTime[]> getFreeTimeSlotsBySpecificDate(LocalDate specificDate) {
         List<Order> orders = orderRepository.findOrdersBySpecificDate(specificDate);
 
-        //working hours from 8AM to 11PM
         LocalDateTime currentDateTime = specificDate.atTime(startWorkingDay[0], startWorkingDay[1]);
         LocalDateTime endOfDay = specificDate.atTime(endWorkingDay[0], endWorkingDay[1]);
 
@@ -80,7 +79,6 @@ public class DateTimeBookingServiceImpl implements DateTimeBookingService {
             LocalDate date = yearMonth.atDay(day);
 
             if (ordersByDate.containsKey(date)) {
-                //working hours from 8AM to 11PM
                 LocalDateTime currentDateTime = date.atTime(startWorkingDay[0], startWorkingDay[1]);
                 LocalDateTime endOfDay = date.atTime(endWorkingDay[0], endWorkingDay[1]);
 

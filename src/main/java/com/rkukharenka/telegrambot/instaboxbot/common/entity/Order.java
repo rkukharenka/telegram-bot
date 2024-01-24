@@ -1,5 +1,7 @@
 package com.rkukharenka.telegrambot.instaboxbot.common.entity;
 
+import com.rkukharenka.telegrambot.instaboxbot.common.enums.ChatState;
+import com.rkukharenka.telegrambot.instaboxbot.common.enums.OrderState;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,6 +21,10 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
+
+    @Column(name = "order_state")
+    @Enumerated(EnumType.STRING)
+    private OrderState orderState;
 
     @Column(name = "comment")
     private String comment;

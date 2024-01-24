@@ -10,7 +10,7 @@ public interface OrderService {
 
     void createOrder(Order order);
 
-    void deleteOrder(Long orderId);
+    void declineOrder(Long orderId);
 
     Order getOrderById(Long orderId);
 

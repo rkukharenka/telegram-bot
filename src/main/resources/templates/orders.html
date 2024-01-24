@@ -49,8 +49,8 @@
                 <td>
                     <a class="btn btn-warning btn-sm" th:href="@{/edit-order/{id}(id=${order.orderId})}">Изменить
                     </a>
-                    <a class="btn btn-danger btn-sm delete-btn" data-toggle="modal"
-                       data-target="#deleteConfirmationModal" th:data-order-id="${order.orderId}">Удалить</a>
+                    <a class="btn btn-danger btn-sm decline-btn" data-toggle="modal"
+                       data-target="#declineConfirmationModal" th:data-order-id="${order.orderId}">Удалить</a>
                 </td>
             </div>
         </tr>
@@ -59,23 +59,23 @@
 </div>
 
 
-<!-- Delete Confirmation Modal -->
-<div class="modal fade" id="deleteConfirmationModal" tabindex="-1" role="dialog"
-     aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
+<!-- Decline Confirmation Modal -->
+<div class="modal fade" id="declineConfirmationModal" tabindex="-1" role="dialog"
+     aria-labelledby="declineConfirmationModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="deleteConfirmationModalLabel">Подтверждение удаления</h5>
+                <h5 class="modal-title" id="declineConfirmationModalLabel">Подтверждение удаления</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <p>Вы уверены, что хотите удалить заказ с ID: <span id="orderIdToDelete"></span>?</p>
+                <p>Вы уверены, что хотите удалить заказ с ID: <span id="orderIdToDecline"></span>?</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
-                <a class="btn btn-danger" id="deleteOrderBtn" href="#">Удалить</a>
+                <a class="btn btn-danger" id="declineOrderBtn" href="#">Отклонить</a>
             </div>
         </div>
     </div>
@@ -86,10 +86,10 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <!-- JavaScript to set the order ID in the modal -->
 <script th:inline="javascript">
-    $('.delete-btn').on('click', function () {
+    $('.decline-btn').on('click', function () {
         var orderId = $(this).data('order-id');
-        $('#orderIdToDelete').text(orderId);
-        $('#deleteOrderBtn').attr('href', '/deleteOrder/' + orderId);
+        $('#orderIdToDecline').text(orderId);
+        $('#declineOrderBtn').attr('href', '/declineOrder/' + orderId);
     });
 </script>
 </body>

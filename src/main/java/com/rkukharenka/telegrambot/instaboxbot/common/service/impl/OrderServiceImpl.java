@@ -2,6 +2,7 @@ package com.rkukharenka.telegrambot.instaboxbot.common.service.impl;
 
 import com.rkukharenka.telegrambot.instaboxbot.common.entity.Order;
 import com.rkukharenka.telegrambot.instaboxbot.common.entity.User;
+import com.rkukharenka.telegrambot.instaboxbot.common.enums.OrderState;
 import com.rkukharenka.telegrambot.instaboxbot.common.repository.OrderRepository;
 import com.rkukharenka.telegrambot.instaboxbot.common.repository.UserRepository;
 import com.rkukharenka.telegrambot.instaboxbot.common.service.OrderService;
@@ -38,14 +39,17 @@ public class OrderServiceImpl implements OrderService {
             order.setUser(newUser);
         }
 
+        order.setOrderState(OrderState.NEW);
+
         orderRepository.save(order);
     }
 
     @Override
     @Transactional
-    public void deleteOrder(Long orderId) {
+    public void declineOrder(Long orderId) {
         Order orderById = getOrderById(orderId);
-        orderRepository.delete(orderById);
+        orderById.setOrderState(OrderState.DECLINED);
+        orderRepository.save(orderById);
     }
 
     @Override
