@@ -20,6 +20,8 @@ telegram:
     admin-chat-id: ${bot.admin.chat.id}
 
 user-preferences:
+  admin-username: ${admin.username}
+  admin-password: ${admin.password}
   contact-mobile-phone: ${admin.mobile.phone}
   working-hours:
     start: 8,0 # 08:00
