@@ -2,6 +2,8 @@ package com.rkukharenka.telegrambot.instaboxbot.common.service;
 
 public interface NotificationService {
 
-    void sendNotification(String text);
+    void sendNotificationToAdmin(String text);
+
+    void sendNotificationToUser(Long chatId, String text);
 
 }

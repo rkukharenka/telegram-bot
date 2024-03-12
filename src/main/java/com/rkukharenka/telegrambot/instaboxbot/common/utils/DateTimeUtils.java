@@ -40,6 +40,10 @@ public final class DateTimeUtils {
         return LocalTime.parse(time, DateTimeFormatter.ofPattern(TIME_FORMAT));
     }
 
+    public static String formatLocalTimeToString(LocalDateTime localDateTime) {
+        return localDateTime.format(DateTimeFormatter.ofPattern(TIME_FORMAT));
+    }
+
     public static String freeTimeSlotsToString(List<LocalDateTime[]> timeSlots) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(TIME_FORMAT);
 

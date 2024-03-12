@@ -1,0 +1,30 @@
+version: '3.9'
+
+services:
+
+#  TODO add application config
+
+  postgres:
+    image: postgres:14-alpine
+    container_name: instabox-db
+    ports:
+      - 5432:5432
+    volumes:
+      - ~/apps/postgres:/var/lib/postgresql/data
+    restart: on-failure
+    environment:
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_USER=/run/secrets/db_password
+      - POSTGRES_DB=instabox_db
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -d $$POSTGRES_DB -U $$POSTGRES_USER" ]
+      interval: 10s
+      timeout: 120s
+      retries: 10
+
+secrets:
+  db_password:
+    file: "db_password.txt"
+
+volumes:
+  postgres_data:

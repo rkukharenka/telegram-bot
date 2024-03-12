@@ -6,4 +6,8 @@ public class TelegramUserNotFoundException extends RuntimeException {
         super("User with chatId = %s not found.".formatted(chatId));
     }
 
+    public TelegramUserNotFoundException(String message) {
+        super("User with phoneNumber = %s not found.".formatted(message));
+    }
+
 }

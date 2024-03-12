@@ -14,5 +14,6 @@ public class OrderResponseDto {
     private String orderTime;
     private String orderLocation;
     private String orderComment;
+    private String orderState;
 
 }
