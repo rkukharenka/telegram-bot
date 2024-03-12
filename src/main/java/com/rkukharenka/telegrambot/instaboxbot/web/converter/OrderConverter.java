@@ -25,7 +25,8 @@ public class OrderConverter {
                 .setOrderDate(parseDate(order.getStartOrder()))
                 .setOrderTime(parseTime(order.getStartOrder(), order.getFinishOrder()))
                 .setOrderLocation(order.getLocation())
-                .setOrderComment(order.getComment());
+                .setOrderComment(order.getComment())
+                .setOrderState(order.getOrderState().getValue());
     }
 
     public Order requestDtoToOrder(OrderRequestDto orderRequestDto) {

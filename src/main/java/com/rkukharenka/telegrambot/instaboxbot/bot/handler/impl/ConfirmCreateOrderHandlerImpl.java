@@ -5,8 +5,10 @@ import com.rkukharenka.telegrambot.instaboxbot.bot.helper.ChatUtils;
 import com.rkukharenka.telegrambot.instaboxbot.common.entity.Order;
 import com.rkukharenka.telegrambot.instaboxbot.common.entity.User;
 import com.rkukharenka.telegrambot.instaboxbot.common.enums.ChatState;
+import com.rkukharenka.telegrambot.instaboxbot.common.enums.OrderState;
 import com.rkukharenka.telegrambot.instaboxbot.common.repository.OrderRepository;
 import com.rkukharenka.telegrambot.instaboxbot.common.service.NotificationService;
+import com.rkukharenka.telegrambot.instaboxbot.common.service.OrderService;
 import com.rkukharenka.telegrambot.instaboxbot.common.service.UserService;
 import com.rkukharenka.telegrambot.instaboxbot.common.utils.DateTimeUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -54,12 +56,13 @@ public class ConfirmCreateOrderHandlerImpl implements RequestHandler {
             orderRepository.save(new Order()
                     .setUser(user)
                     .setComment(user.getComment())
+                    .setOrderState(OrderState.NEW)
                     .setLocation(user.getPreOrderInfo().getEventPlace())
                     .setStartOrder(LocalDateTime.of(user.getPreOrderDate(), user.getPreOrderStartTime()))
-                    .setFinishOrder(LocalDateTime.of(user.getPreOrderDate(), user.getPreOrderEndTime())));
+                    .setFinishOrder(LocalDateTime.of(user.getPreOrderDate(), user.getPreOrderEndTime()))
+                    .setCreatedAt(LocalDateTime.now()));
 
-
-            notificationService.sendNotification(String.format(CREATE_ORDER_NOTIFICATION_MSG_FORMAT,
+            notificationService.sendNotificationToAdmin(String.format(CREATE_ORDER_NOTIFICATION_MSG_FORMAT,
                     user.getFirstName(),
                     user.getPhoneNumber(),
                     DateTimeUtils.formatDateToString(user.getPreOrderDate()),

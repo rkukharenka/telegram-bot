@@ -1,27 +1,24 @@
 spring:
   datasource:
-    url: jdbc:h2:mem:mydb
-    username: sa
-    password: sa
-    driverClassName: org.h2.Driver
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://${db.host}:${db.port}/${db.name}
+    username: ${db.username}
+    password: ${db.password}
   jpa:
     hibernate:
-      ddl-auto: create-drop
-    database-platform: org.hibernate.dialect.H2Dialect
-    show-sql: true
-  h2:
-    console:
-      enabled: true
-      path: /h2-console
-      settings.trace: false
-      settings.web-allow-others: false
+      ddl-auto: validate
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
 
 telegram:
   bot:
-    bot-username: ${BOT_USERNAME}
-    token: ${BOT_TOKEN}
+    bot-username: ${bot.username}
+    token: ${bot.token}
+    admin-chat-id: ${bot.admin.chat.id}
 
 user-preferences:
+  admin-username: ${admin.username}
+  admin-password: ${admin.password}
+  contact-mobile-phone: ${admin.mobile.phone}
   working-hours:
     start: 8,0 # 08:00
     end: 23,0  # 23:00

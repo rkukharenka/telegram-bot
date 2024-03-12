@@ -1,6 +1,7 @@
 package com.rkukharenka.telegrambot.instaboxbot.common.entity;
 
 import com.rkukharenka.telegrambot.instaboxbot.common.enums.ChatState;
+import com.rkukharenka.telegrambot.instaboxbot.common.utils.PhoneNumberUtils;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -52,6 +53,11 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL})
     private List<Order> orders = new ArrayList<>();
+
+    public User setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = PhoneNumberUtils.removeNonNumeric(phoneNumber);
+        return this;
+    }
 
     @Override
     public boolean equals(Object o) {

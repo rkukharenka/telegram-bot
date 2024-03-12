@@ -1,7 +1,0 @@
-<a th:fragment="paging(pageNum, label, tooltip)" class="page-link"
-   th:href="@{'/orders?' + ${keyword!=null && keyword!=''? 'keyword=' + keyword + '&' : ''}
-                           + 'page=' + ${pageNum} + '&size=' + ${pageSize}
-                           + ${sortField!=null ? '&sort=' + sortField + ',' + sortDirection : ''}}"
-   th:title="${tooltip}" rel="tooltip">
-    [[${label}]]
-</a>

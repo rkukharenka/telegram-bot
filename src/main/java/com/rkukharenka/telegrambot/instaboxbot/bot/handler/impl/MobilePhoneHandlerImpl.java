@@ -7,6 +7,7 @@ import com.rkukharenka.telegrambot.instaboxbot.common.entity.User;
 import com.rkukharenka.telegrambot.instaboxbot.common.enums.ChatState;
 import com.rkukharenka.telegrambot.instaboxbot.common.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
@@ -15,6 +16,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import static com.rkukharenka.telegrambot.instaboxbot.common.constant.MessageConstant.ADD_COMMENT_OPTIONAL_MSG_FORMAT;
 
@@ -34,8 +36,13 @@ public class MobilePhoneHandlerImpl implements RequestHandler {
     @Override
     @Transactional
     public List<BotApiMethod<? extends Serializable>> handleRequest(User user, Update update) {
-
         String mobilePhone = update.getMessage().getContact().getPhoneNumber();
+
+        Optional<User> userByPhoneNumber = userService.getUserByPhoneNumber(mobilePhone);
+        if(userByPhoneNumber.isPresent() && Objects.isNull(userByPhoneNumber.get().getChatId())){
+            userService.mergeUser(userByPhoneNumber.get(), user);
+            user = userByPhoneNumber.get();
+        }
 
         user.setPhoneNumber(mobilePhone);
         user.setChatState(ChatState.ADDING_COMMENT_OPTIONAL);

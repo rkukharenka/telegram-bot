@@ -4,10 +4,10 @@ import com.rkukharenka.telegrambot.instaboxbot.bot.helper.ChatUtils;
 import com.rkukharenka.telegrambot.instaboxbot.common.entity.PreOrderInfo;
 import com.rkukharenka.telegrambot.instaboxbot.common.entity.User;
 import com.rkukharenka.telegrambot.instaboxbot.common.enums.ChatState;
-import com.rkukharenka.telegrambot.instaboxbot.common.exception.TelegramUserNotFoundException;
 import com.rkukharenka.telegrambot.instaboxbot.common.exception.UserAlreadyExistsException;
 import com.rkukharenka.telegrambot.instaboxbot.common.repository.UserRepository;
 import com.rkukharenka.telegrambot.instaboxbot.common.service.UserService;
+import com.rkukharenka.telegrambot.instaboxbot.common.utils.PhoneNumberUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +15,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 
 import java.time.LocalDate;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -29,11 +30,6 @@ public class UserServiceImpl implements UserService {
             throw new UserAlreadyExistsException(user.getChatId());
         }
         userRepository.save(user);
-    }
-
-    @Override
-    public User getUser(Long chatId) {
-        return userRepository.findById(chatId).orElseThrow(() -> new TelegramUserNotFoundException(chatId));
     }
 
     @Override
@@ -66,5 +62,27 @@ public class UserServiceImpl implements UserService {
     public void resetUserToInitialState(User user) {
         user.setChatState(ChatState.GREETING).setPreOrderInfo(new PreOrderInfo());
         updateUser(user);
+    }
+
+    @Override
+    @Transactional
+    public void mergeUser(User manual, User telegram) {
+        manual.setChatId(telegram.getChatId())
+                .setChatState(telegram.getChatState())
+                .setPreOrderInfo(new PreOrderInfo())
+                .setPreOrderDate(telegram.getPreOrderDate())
+                .setPreOrderStartTime(telegram.getPreOrderStartTime())
+                .setPreOrderEndTime(telegram.getPreOrderEndTime())
+                .setPreOrderEndTime(telegram.getPreOrderEndTime())
+                .setEventPlace(telegram.getEventPlace())
+                .setComment(telegram.getComment());
+
+        userRepository.delete(telegram);
+        userRepository.save(manual);
+    }
+
+    @Override
+    public Optional<User> getUserByPhoneNumber(String phoneNumber) {
+        return userRepository.findUserByPhoneNumber(PhoneNumberUtils.removeNonNumeric(phoneNumber));
     }
 }

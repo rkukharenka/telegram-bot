@@ -38,6 +38,9 @@ public class Order {
     @Column(name = "finish_order")
     private LocalDateTime finishOrder;
 
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
