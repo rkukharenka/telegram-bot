@@ -56,11 +56,11 @@ jobs:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
       - name: Stop running container
         run: |
-          ssh -o StrictHostKeyChecking=no username@your-timeweb-server 'sudo docker stop instabox-bot || true'
-          ssh -o StrictHostKeyChecking=no username@your-timeweb-server 'sudo docker rm instabox-bot || true'
+          ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER }} 'sudo docker stop instabox-bot || true'
+          ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER }} 'sudo docker rm instabox-bot || true'
       - name: Pull Docker image
         run: |
-          ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@your-ec2-instance-ip 'sudo docker pull ryhorkukharenkadev/instabox-bot:latest'
+          ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER }} 'sudo docker pull ryhorkukharenkadev/instabox-bot:latest'
       - name: SSH into Timeweb and deploy Docker image
         run: |
-          ssh -o StrictHostKeyChecking=no username@your-timeweb-server 'docker run -d -p 3000:3000 ryhorkukharenkadev/instabox-bot:latest'
+          ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER }} 'docker run -d -p 3000:3000 ryhorkukharenkadev/instabox-bot:latest'
