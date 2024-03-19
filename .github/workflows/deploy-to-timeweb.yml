@@ -54,6 +54,7 @@ jobs:
         uses: webfactory/ssh-agent@v0.9.0
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          log-public-key: false
       - name: Stop running container
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER }} 'sudo docker stop instabox-bot || true'
