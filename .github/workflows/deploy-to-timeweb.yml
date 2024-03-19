@@ -3,10 +3,26 @@ on:
   push:
     branches:
       - main
-env:
-  DOCKERHUB_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-  DOCKERHUB_TOKEN: ${{ secrets.DOCKER_TOKEN }}
-  TIMEWEB_PRIVATE_KEY: ${{ secrets.TIMEWEB_PRIVATE_KEY }}
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Log level'
+        required: true
+        default: 'warning'
+        type: choice
+        options:
+          - info
+          - warning
+          - debug
+      tags:
+        description: 'Test scenario tags'
+        required: false
+        type: boolean
+      environment:
+        description: 'prod Environment'
+        type: environment
+        required: true
+
 jobs:
   build:
     runs-on: ubuntu-latest
