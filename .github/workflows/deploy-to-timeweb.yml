@@ -18,10 +18,6 @@ on:
         description: 'Test scenario tags'
         required: false
         type: boolean
-      environment:
-        description: 'prod Environment'
-        type: environment
-        required: true
 
 jobs:
   build:
